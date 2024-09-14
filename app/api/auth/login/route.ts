@@ -14,7 +14,8 @@ export async function POST(req: Request) {
         console.log('req', request)
         if (!request.ok) {
             throw new Error(`Authentication Error: ${request.status}`)
-        }    
+        }
+
         return Response.json({status: request.status, name, email})
     } catch (error) {
         console.log('Error', error)
