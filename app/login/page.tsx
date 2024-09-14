@@ -26,12 +26,16 @@ export default function Login() {
     async function onSubmit(values: z.infer<typeof loginSchema>) {
         const { name, email } = values
 
-        const request = await fetch('/api/auth/login', {
+        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
             method: 'POST',
             body: JSON.stringify({ name, email }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: 'include'
         })
 
-        const { status } = await request.json()
+        const { status } = request
 
         if (status === 200 && typeof window !== undefined) {
             window.localStorage.setItem('auth', 'true')
