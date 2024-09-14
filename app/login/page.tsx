@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 const loginSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -13,6 +14,7 @@ const loginSchema = z.object({
 })
 
 export default function Login() {
+    const router = useRouter();
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -21,14 +23,20 @@ export default function Login() {
         },
     })
 
-    function onSubmit(values: z.infer<typeof loginSchema>) {
-        // TODO: Handle form submission
+    async function onSubmit(values: z.infer<typeof loginSchema>) {
         const { name, email } = values
 
-        fetch('/api/auth/login', {
+        const request = await fetch('/api/auth/login', {
             method: 'POST',
             body: JSON.stringify({ name, email }),
         })
+
+        const { status } = await request.json()
+
+        if (status === 200 && typeof window !== undefined) {
+            window.localStorage.setItem('auth', 'true')
+            router.push('/')
+        }
     }
 
     return (
