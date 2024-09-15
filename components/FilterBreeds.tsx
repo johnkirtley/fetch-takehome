@@ -43,8 +43,9 @@ export default function FilterBreeds({ setSelectedBreed }: { setSelectedBreed: (
                 <SelectValue placeholder="Select Breed" />
             </SelectTrigger>
             <SelectContent>
+                <SelectItem key={breeds.length + 1} value={'all'}>All Breeds</SelectItem>
                 {breeds.map((breed, idx) => (
-                    <SelectItem key={idx} value={breed}>{breed}</SelectItem>
+                    <SelectItem key={idx + 1} value={breed}>{breed}</SelectItem>
                 ))}
             </SelectContent>
         </Select>
