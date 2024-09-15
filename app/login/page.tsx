@@ -38,7 +38,7 @@ export default function Login() {
 
         const { status } = request
 
-        if (status === 200 && typeof window !== undefined) {
+        if (status === 200) {
             setValueExpiration('auth', 'true', 1000 * 60 * 60)
             router.push('/')
         }
