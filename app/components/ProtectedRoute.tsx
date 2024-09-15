@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { getValueExpiration } from '../../utils/valueExpiration';
 
 export default function withAuth<P extends object>(Component: React.ComponentType<P>) {
     return function ProtectedComponent(props: P) {
@@ -10,9 +11,9 @@ export default function withAuth<P extends object>(Component: React.ComponentTyp
             const [isAuth, setIsAuth] = useState(false);
 
             useEffect(() => {
-                const auth = typeof window !== undefined ? window.localStorage.getItem('auth') : null
+                const auth = getValueExpiration('auth')
 
-                if (auth !== 'true') {
+                if (!auth) {
                     router.push('/login')
                 } else {
                     setIsAuth(true)
