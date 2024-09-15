@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
-import DogCard from '../../components/DogCard';
+import DogCard from '../../../components/DogCard';
 
 
 interface Dog {
