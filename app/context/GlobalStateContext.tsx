@@ -1,14 +1,23 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+interface Dog {
+    id: string
+    img: string
+    name: string
+    age: number
+    zip_code: string
+    breed: string
+}
+
 interface GlobalState {
-    availableDogs: string[];
-    setAvailableDogs: React.Dispatch<React.SetStateAction<string[]>>;
+    availableDogs: Dog[];
+    setAvailableDogs: React.Dispatch<React.SetStateAction<Dog[]>>;
 }
 
 const GlobalStateContext = createContext<GlobalState | undefined>(undefined);
 
 export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
-    const [availableDogs, setAvailableDogs] = useState<string[]>([]);
+    const [availableDogs, setAvailableDogs] = useState<Dog[]>([]);
 
     return (
         <GlobalStateContext.Provider value={{ availableDogs, setAvailableDogs }}>
