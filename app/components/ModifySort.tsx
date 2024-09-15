@@ -29,10 +29,14 @@ export default function ModifySort({
     }
 
     return (
-        <div>
-            Sort By:
-            <Button onClick={sortAsc}>Asc</Button>
-            <Button onClick={sortDesc}>Desc</Button>
+        <div className='flex flex-col items-center justify-center gap-2'>
+            <div>
+                <p>Sort By Breed:</p>
+            </div>
+            <div className='flex gap-2'>
+                <Button variant="secondary" onClick={sortAsc}>Asc</Button>
+                <Button variant="secondary" onClick={sortDesc}>Desc</Button>
+            </div>
         </div>
     )
 }
