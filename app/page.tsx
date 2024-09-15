@@ -1,7 +1,7 @@
 'use client'
 
-import BrowseDogs from "./components/BrowseDogs";
-import { GlobalStateProvider } from "./context/GlobalStateContext";
+import BrowseDogs from "../components/BrowseDogs";
+import { GlobalStateProvider } from "../context/GlobalStateContext";
 
 export default function Home() {
 
