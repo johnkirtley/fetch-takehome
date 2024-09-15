@@ -39,8 +39,6 @@ export default function Page({ params }: { params: { slug: string } }) {
                 const searchData = await searchResponse.json();
                 console.log('searchData', searchData);
 
-                // Second POST request to /dogs
-
                 const dogsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
                     method: 'POST',
                     credentials: 'include',
@@ -84,12 +82,9 @@ export default function Page({ params }: { params: { slug: string } }) {
     }
 
     const checkFavorites = (id: string) => {
-        if (typeof window !== undefined) {
-            const storedFavorites = window.localStorage.getItem('favorites');
-            const parsedFavorites = JSON.parse(storedFavorites || '[]');
-            return parsedFavorites.includes(id);
-        }
-        return false;
+        const storedFavorites = localStorage.getItem('favorites');
+        const parsedFavorites = JSON.parse(storedFavorites || '[]');
+        return parsedFavorites.includes(id);
     }
 
     return (
