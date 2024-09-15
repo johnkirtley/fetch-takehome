@@ -7,6 +7,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, For
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import { setValueExpiration } from '@/utils/valueExpiration'
 
 const loginSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -38,7 +39,7 @@ export default function Login() {
         const { status } = request
 
         if (status === 200 && typeof window !== undefined) {
-            window.localStorage.setItem('auth', 'true')
+            setValueExpiration('auth', 'true', 1000 * 60 * 60)
             router.push('/')
         }
     }
