@@ -47,7 +47,7 @@ export default function Login() {
     return (
         <div className="flex justify-center items-center h-screen">
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-1/3 flex flex-col justify-center items-center">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 md:w-1/3 w-11/12 flex flex-col justify-center items-center">
                     <FormField
                         control={form.control}
                         name="name"
