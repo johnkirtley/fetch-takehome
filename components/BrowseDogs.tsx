@@ -52,6 +52,11 @@ function BrowseDogs() {
 
                 const dogsData = await dogsResponse.json()
                 console.log('dogsData', dogsData);
+
+                if (dogsData.length === 0) {
+                    setNoResults(true);
+                }
+
                 setAvailableDogs(dogsData);
                 setFilteredBreeds(dogsData); // Set filteredBreeds to the fetched data
             } catch (error) {
@@ -63,17 +68,50 @@ function BrowseDogs() {
     }, [setAvailableDogs]);
 
     useEffect(() => {
-        if (selectedBreed) {
-            const filteredResults = availableDogs.filter((dog) => dog.breed.toLowerCase().includes(selectedBreed.toLowerCase()));
+        async function getBreedInfo() {
+            try {
+                const searchResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?breeds=${selectedBreed}&size=99`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
 
-            if (filteredResults.length === 0) {
-                setNoResults(true);
-            } else {
-                setNoResults(false);
+                if (!searchResponse.ok) {
+                    throw new Error(`HTTP error! status: ${searchResponse.status}`);
+                }
+
+                const searchData = await searchResponse.json();
+                console.log('searchData', searchData);
+
+                const dogsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(searchData.resultIds)
+                });
+
+                if (!dogsResponse.ok) {
+                    throw new Error(`HTTP error! status: ${dogsResponse.status}`);
+                }
+
+                const dogsData = await dogsResponse.json()
+                console.log('dogsData', dogsData);
+                setFilteredBreeds(dogsData);
+
+            } catch (error) {
+                console.error('Error fetching dogs:', error);
             }
-
-            setFilteredBreeds(filteredResults);
         }
+
+        if (selectedBreed && selectedBreed !== 'all') {
+            getBreedInfo();
+        }
+
+        if (selectedBreed === 'all') {
+            setFilteredBreeds(availableDogs);
+        }
+
     }, [selectedBreed, availableDogs])
 
     return (
