@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import withAuth from './ProtectedRoute';
-import { Input } from '@/components/ui/input';
 import { useGlobalState } from '../context/GlobalStateContext';
-import { ChangeEvent } from 'react';
 import ModifySort from './ModifySort';
-import Link from 'next/link';
 import DogCard from './DogCard';
+import FilterBreeds from './FilterBreeds';
+import NoFilterResults from './NoFilterResults';
 interface Dog {
     id: string
     img: string
@@ -20,6 +19,8 @@ interface Dog {
 function BrowseDogs() {
     const { availableDogs, setAvailableDogs } = useGlobalState();
     const [filteredBreeds, setFilteredBreeds] = useState<Dog[]>(availableDogs);
+    const [selectedBreed, setSelectedBreed] = useState<string>('');
+    const [noResults, setNoResults] = useState<boolean>(false);
 
     useEffect(() => {
         async function getAvailableDogs() {
@@ -61,27 +62,35 @@ function BrowseDogs() {
         getAvailableDogs();
     }, [setAvailableDogs]);
 
-    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        const term = e.target.value;
+    useEffect(() => {
+        if (selectedBreed) {
+            const filteredResults = availableDogs.filter((dog) => dog.breed.toLowerCase().includes(selectedBreed.toLowerCase()));
 
-        if (term === '') {
-            setFilteredBreeds(availableDogs);
-        } else {
-            const filteredResults = availableDogs.filter((dog) => dog.breed.toLowerCase().includes(term.toLowerCase()));
+            if (filteredResults.length === 0) {
+                setNoResults(true);
+            } else {
+                setNoResults(false);
+            }
+
             setFilteredBreeds(filteredResults);
         }
-    }
+    }, [selectedBreed, availableDogs])
 
     return (
         <div>
-            Browse Available Dogs Below
-            <Input onChange={handleSearch} />
-            <ModifySort filteredBreeds={filteredBreeds} setFilteredBreeds={setFilteredBreeds} />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {filteredBreeds.map((dog, index) => (
-                    <DogCard linkToBreed={true} dog={dog} key={index} />
-                ))}
+            <div className='flex flex-col md:flex-row justify-center items-center gap-5 mb-5'>
+                <div className='flex flex-col items-center justify-center gap-2'>
+                    <p>Filter</p>
+                    <FilterBreeds setSelectedBreed={setSelectedBreed} />
+                </div>
+                <ModifySort filteredBreeds={filteredBreeds} setFilteredBreeds={setFilteredBreeds} />
             </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {filteredBreeds.length > 0 ? filteredBreeds.map((dog, index) => (
+                    <DogCard linkToBreed={true} dog={dog} key={index} />
+                )) : null}
+            </div>
+            {noResults ? <NoFilterResults breed={selectedBreed} /> : null}
         </div>
     )
 }
