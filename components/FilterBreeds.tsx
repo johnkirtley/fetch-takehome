@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select"
 
 
-export default function FilterBreeds({ setSelectedBreed }: { setSelectedBreed: (breed: string) => void }) {
+export default function FilterBreeds({ setSelectedBreed, selectedBreed }: { setSelectedBreed: (breed: string) => void, selectedBreed: string }) {
     const [breeds, setBreeds] = useState<string[]>([]);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export default function FilterBreeds({ setSelectedBreed }: { setSelectedBreed: (
     }
 
     return (
-        <Select onValueChange={(value) => handleBreedChange(value)}>
+        <Select onValueChange={(value) => handleBreedChange(value)} defaultValue={'all'} value={selectedBreed}>
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select Breed" />
             </SelectTrigger>
