@@ -56,7 +56,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   const formattedBreedName = `${params.slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}s`;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="flex flex-col items-center justify-center p-8">
       <h1 className="text-3xl font-bold mb-6">
         View All Our Awesome {formattedBreedName}
       </h1>
