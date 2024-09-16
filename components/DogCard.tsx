@@ -9,6 +9,8 @@ import {
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
 import { Send, HeartIcon, HeartOffIcon } from 'lucide-react';
+import manageFavorites from '../utils/manageFavorites';
+
 
 interface Dog {
     id: string
@@ -23,27 +25,14 @@ export default function DogCard({ dog, linkToBreed }: { dog: Dog, linkToBreed: b
     const [favorites, setFavorites] = useState<string[]>([])
 
 
-    const addFavorite = (id: string) => {
-        const currentFavorites = localStorage.getItem('favorites')
-        const parsedFavorites = JSON.parse(currentFavorites || '[]')
-        const newFavorites = [...parsedFavorites, id]
-        localStorage.setItem('favorites', JSON.stringify(newFavorites));
+    const handleFavorites = (id: string, action: 'add' | 'remove' | 'check') => {
+        const favorites = manageFavorites(id, action);
 
-        setFavorites(newFavorites);
-    }
+        if (action === 'check') {
+            return favorites;
+        }
 
-    const removeFavorite = (id: string) => {
-        const currentFavorites = localStorage.getItem('favorites')
-        const parsedFavorites = JSON.parse(currentFavorites || '[]')
-        const updatedFavorites = parsedFavorites.filter((favId: string) => favId !== id)
-        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-        setFavorites(updatedFavorites);
-    }
-
-    const checkFavorites = (id: string) => {
-        const storedFavorites = localStorage.getItem('favorites');
-        const parsedFavorites = JSON.parse(storedFavorites || '[]');
-        return parsedFavorites.includes(id);
+        setFavorites(favorites);
     }
 
     return (
@@ -65,11 +54,11 @@ export default function DogCard({ dog, linkToBreed }: { dog: Dog, linkToBreed: b
                 </div>
                 <div>
                     <Button
-                        className={`${checkFavorites(dog.id) ? 'hidden' : 'bg-blue-500 hover:bg-blue-600'}`}
-                        onClick={() => addFavorite(dog.id)}>
+                        className={`${handleFavorites(dog.id, 'check') ? 'hidden' : 'bg-blue-500 hover:bg-blue-600'}`}
+                        onClick={() => handleFavorites(dog.id, 'add')}>
                         <HeartIcon className="w-4 h-4" />
                     </Button>
-                    {checkFavorites(dog.id) || favorites.includes(dog.id) ? <Button onClick={() => removeFavorite(dog.id)} variant='destructive'><HeartOffIcon className="w-4 h-4" /></Button> : null}
+                    {handleFavorites(dog.id, 'check') || favorites.includes(dog.id) ? <Button onClick={() => handleFavorites(dog.id, 'remove')} variant='destructive'><HeartOffIcon className="w-4 h-4" /></Button> : null}
                 </div>
             </CardHeader>
             <CardFooter>
