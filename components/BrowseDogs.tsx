@@ -72,6 +72,7 @@ function BrowseDogs() {
 
     return (
         <div>
+            <h1 className='text-2xl font-bold text-center mb-10'>Our Awesome Dogs</h1>
             <div className='flex flex-col md:flex-row justify-center items-center gap-5 mb-5'>
                 <div className='flex flex-col items-center justify-center gap-2'>
                     <p>Filter</p>
