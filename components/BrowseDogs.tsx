@@ -66,7 +66,6 @@ function BrowseDogs() {
     }, [selectedBreed])
 
     useEffect(() => {
-        console.log('filteredBreeds', filteredBreeds)
         setAvailableDogs(filteredBreeds)
 
     }, [filteredBreeds])

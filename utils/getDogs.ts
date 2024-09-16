@@ -16,7 +16,6 @@ export default async function getDogs(sortType: string, url?: string) {
     }
 
     const searchResponse = await response.json();
-    console.log('data', searchResponse)
 
     const dogsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
         method: 'POST',
@@ -32,7 +31,6 @@ export default async function getDogs(sortType: string, url?: string) {
     }
 
     const dogsData = await dogsResponse.json()
-    console.log('dogsData', dogsData);
 
     return {dogsData, searchResponse};
 }

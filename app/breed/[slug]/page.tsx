@@ -21,7 +21,6 @@ export default function Page({ params }: { params: { slug: string } }) {
                 }
 
                 const searchData = await searchResponse.json();
-                console.log('searchData', searchData);
 
                 const dogsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
                     method: 'POST',
@@ -37,7 +36,6 @@ export default function Page({ params }: { params: { slug: string } }) {
                 }
 
                 const dogsData = await dogsResponse.json()
-                console.log('dogsData', dogsData);
                 setBreedInfo(dogsData);
 
             } catch (error) {
