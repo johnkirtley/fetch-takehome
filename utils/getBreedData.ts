@@ -9,7 +9,6 @@ export default async function getBreedData(selectedBreed: string) {
     }
 
     const searchData = await searchResponse.json();
-    console.log('searchData', searchData);
 
     const dogsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
         method: 'POST',
@@ -25,6 +24,5 @@ export default async function getBreedData(selectedBreed: string) {
     }
 
     const dogsData = await dogsResponse.json()
-    console.log('dogsData', dogsData);
     return {dogsData, searchData};
 }

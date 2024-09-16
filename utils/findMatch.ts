@@ -29,7 +29,6 @@ export default async function findMatch(favorites: string[]) {
     }
 
     const matchInfoData = await matchInfo.json();
-    console.log('matchInfoData', matchInfoData);
 
     return matchInfoData;
 }
