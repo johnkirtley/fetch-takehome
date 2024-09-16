@@ -8,6 +8,8 @@ import DogCard from './DogCard';
 import FilterBreeds from './FilterBreeds';
 import getDogs from '../utils/getDogs';
 import getBreedData from '../utils/getBreedData';
+import Paginate from './Paginate';
+
 interface Dog {
     id: string
     img: string
@@ -23,14 +25,22 @@ function BrowseDogs() {
     const [selectedBreed, setSelectedBreed] = useState<string>('');
     const [sortType, setSortType] = useState<string>('asc');
     const [refetchTrigger, setRefetchTrigger] = useState(0);
+    const [paginationInfo, setPaginationInfo] = useState({
+        prev: '',
+        next: ''
+    })
 
     useEffect(() => {
         async function getAvailableDogs() {
             try {
-                const allDogs = await getDogs(sortType);
-                setAvailableDogs(allDogs);
-                setFilteredBreeds(allDogs);
+                const { dogsData, searchResponse } = await getDogs(sortType);
+                setAvailableDogs(dogsData);
+                setFilteredBreeds(dogsData);
                 setSelectedBreed('all');
+                setPaginationInfo({
+                    prev: searchResponse.prev,
+                    next: searchResponse.next
+                })
             } catch (error) {
                 console.error('Error fetching dogs:', error);
             }
@@ -42,8 +52,12 @@ function BrowseDogs() {
     useEffect(() => {
         async function getBreedInfo() {
             try {
-                const breedData = await getBreedData(selectedBreed);
-                setFilteredBreeds(breedData);
+                const { dogsData, searchData } = await getBreedData(selectedBreed);
+                setFilteredBreeds(dogsData);
+                setPaginationInfo({
+                    prev: searchData.prev,
+                    next: searchData.next
+                })
             } catch (error) {
                 console.error('Error fetching breed data:', error);
             }
@@ -59,6 +73,12 @@ function BrowseDogs() {
 
     }, [selectedBreed])
 
+    useEffect(() => {
+        console.log('filteredBreeds', filteredBreeds)
+        setAvailableDogs(filteredBreeds)
+
+    }, [filteredBreeds])
+
     return (
         <div>
             <div className='flex flex-col md:flex-row justify-center items-center gap-5 mb-5'>
@@ -73,6 +93,7 @@ function BrowseDogs() {
                     <DogCard linkToBreed={true} dog={dog} key={index} />
                 )) : null}
             </div>
+            <Paginate paginationInfo={paginationInfo} sortType={sortType} setFilteredBreeds={setFilteredBreeds} setPaginationInfo={setPaginationInfo} />
         </div>
     )
 }
