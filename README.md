@@ -41,3 +41,5 @@ Future improvements:
 
 - [ ] Integrate a Postgres database solution like Supabase
 - [ ] Create an account page to manage user preferences like breed types, etc.
+- [ ] Add loading states throughout the app
+- [ ] Filter by age
