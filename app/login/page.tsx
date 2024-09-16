@@ -57,7 +57,10 @@ export default function Login() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex flex-col justify-center items-center">
+      <h1 className="text-lg font-bold p-10 text-center">
+        Thank you for taking the time to review my submission, Fetch team 😊
+      </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
