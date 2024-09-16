@@ -53,7 +53,7 @@ export default function Paginate({ paginationInfo, sortType, setFilteredBreeds, 
     }
 
     return (
-        <Pagination>
+        <Pagination className="mt-5">
             <PaginationContent>
                 <PaginationItem>
                     {paginationInfo.prev && <PaginationPrevious onClick={() => handlePagination(paginationInfo.prev)} />}
