@@ -6,7 +6,6 @@ import { useGlobalState } from '../context/GlobalStateContext';
 import ModifySort from './ModifySort';
 import DogCard from './DogCard';
 import FilterBreeds from './FilterBreeds';
-import NoFilterResults from './NoFilterResults';
 interface Dog {
     id: string
     img: string
@@ -20,7 +19,6 @@ function BrowseDogs() {
     const { availableDogs, setAvailableDogs } = useGlobalState();
     const [filteredBreeds, setFilteredBreeds] = useState<Dog[]>(availableDogs);
     const [selectedBreed, setSelectedBreed] = useState<string>('');
-    const [noResults, setNoResults] = useState<boolean>(false);
 
     useEffect(() => {
         async function getAvailableDogs() {
@@ -52,10 +50,6 @@ function BrowseDogs() {
 
                 const dogsData = await dogsResponse.json()
                 console.log('dogsData', dogsData);
-
-                if (dogsData.length === 0) {
-                    setNoResults(true);
-                }
 
                 setAvailableDogs(dogsData);
                 setFilteredBreeds(dogsData); // Set filteredBreeds to the fetched data
@@ -128,7 +122,6 @@ function BrowseDogs() {
                     <DogCard linkToBreed={true} dog={dog} key={index} />
                 )) : null}
             </div>
-            {noResults ? <NoFilterResults breed={selectedBreed} /> : null}
         </div>
     )
 }
