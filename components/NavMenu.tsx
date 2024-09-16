@@ -8,6 +8,7 @@ export default function NavMenu() {
             </div>
             <div className="flex flex-row gap-4">
                 <Link href="/find-my-match">Find My Match</Link>
+                <Link href="/favorites">Favorites</Link>
             </div>
         </div>
     )
