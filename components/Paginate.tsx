@@ -6,15 +6,7 @@ import {
     PaginationPrevious,
 } from "./ui/pagination"
 import getDogs from "../utils/getDogs"
-
-interface Dog {
-    id: string
-    img: string
-    name: string
-    age: number
-    zip_code: string
-    breed: string
-}
+import { Dog } from "../types/interfaces"
 
 interface PaginationProps {
     paginationInfo: {

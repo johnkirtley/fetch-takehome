@@ -8,14 +8,8 @@ import { useState, useEffect } from 'react';
 import DogCard from '../../components/DogCard';
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
-interface Dog {
-    id: string
-    img: string
-    name: string
-    age: number
-    zip_code: string
-    breed: string
-}
+import { Dog } from '../../types/interfaces'
+
 function FindMyMatch() {
     const [match, setMatch] = useState<Dog | null>(null);
     const [showConfetti, setShowConfetti] = useState(false);

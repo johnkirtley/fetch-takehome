@@ -4,15 +4,7 @@ import withAuth from '../../components/ProtectedRoute'
 import manageFavorites from '../../utils/manageFavorites'
 import DogCard from '../../components/DogCard'
 import getDogsById from '../../utils/getDogsById'
-
-interface Dog {
-    id: string
-    img: string
-    name: string
-    age: number
-    zip_code: string
-    breed: string
-}
+import { Dog } from '../../types/interfaces'
 
 function Favorites() {
     const [favorites, setFavorites] = useState<Dog[]>([])

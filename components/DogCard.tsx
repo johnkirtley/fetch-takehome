@@ -10,16 +10,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link";
 import { Send, HeartIcon, HeartOffIcon } from 'lucide-react';
 import manageFavorites from '../utils/manageFavorites';
-
-
-interface Dog {
-    id: string
-    img: string
-    name: string
-    age: number
-    zip_code: string
-    breed: string
-}
+import { Dog } from '../types/interfaces';
 
 export default function DogCard({ dog, linkToBreed }: { dog: Dog, linkToBreed: boolean }) {
     const [favorites, setFavorites] = useState<string[]>([])

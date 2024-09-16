@@ -1,13 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-interface Dog {
-    id: string
-    img: string
-    name: string
-    age: number
-    zip_code: string
-    breed: string
-}
+import { Dog } from '../types/interfaces';
 
 interface GlobalState {
     availableDogs: Dog[];
@@ -15,6 +7,7 @@ interface GlobalState {
     favorites: string[];
     setFavorites: React.Dispatch<React.SetStateAction<string[]>>;
 }
+
 
 const GlobalStateContext = createContext<GlobalState | undefined>(undefined);
 

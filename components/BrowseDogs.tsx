@@ -9,15 +9,7 @@ import FilterBreeds from './FilterBreeds';
 import getDogs from '../utils/getDogs';
 import getBreedData from '../utils/getBreedData';
 import Paginate from './Paginate';
-
-interface Dog {
-    id: string
-    img: string
-    name: string
-    age: number
-    zip_code: string
-    breed: string
-}
+import { Dog } from '../types/interfaces';
 
 function BrowseDogs() {
     const { availableDogs, setAvailableDogs } = useGlobalState();

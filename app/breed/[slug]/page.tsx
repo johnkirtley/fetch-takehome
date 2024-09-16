@@ -1,16 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react';
 import DogCard from '../../../components/DogCard';
+import { Dog } from '../../../types/interfaces';
 
-
-interface Dog {
-    id: string
-    img: string
-    name: string
-    age: number
-    zip_code: string
-    breed: string
-}
 
 export default function Page({ params }: { params: { slug: string } }) {
     const [breedInfo, setBreedInfo] = useState<Dog[]>([])
