@@ -12,15 +12,18 @@ interface Dog {
 interface GlobalState {
     availableDogs: Dog[];
     setAvailableDogs: React.Dispatch<React.SetStateAction<Dog[]>>;
+    favorites: string[];
+    setFavorites: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const GlobalStateContext = createContext<GlobalState | undefined>(undefined);
 
 export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
     const [availableDogs, setAvailableDogs] = useState<Dog[]>([]);
+    const [favorites, setFavorites] = useState<string[]>([]);
 
     return (
-        <GlobalStateContext.Provider value={{ availableDogs, setAvailableDogs }}>
+        <GlobalStateContext.Provider value={{ availableDogs, setAvailableDogs, favorites, setFavorites }}>
             {children}
         </GlobalStateContext.Provider>
     );
