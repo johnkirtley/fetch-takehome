@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['frontend-take-home.fetch.com'],
+        remotePatterns: [{
+            hostname: 'frontend-take-home.fetch.com',
+            protocol: 'https',
+        }],
     },
 };
 
