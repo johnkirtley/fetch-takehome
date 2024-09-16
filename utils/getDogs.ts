@@ -1,5 +1,12 @@
-export default async function getDogs(sortType: string) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?size=20&sort=breed:${sortType}`, {
+export default async function getDogs(sortType: string, url?: string) {
+    let urlToFetch;
+
+    if (url) {
+        urlToFetch = `${process.env.NEXT_PUBLIC_BASE_URL}${url}`;
+    } else {
+        urlToFetch = `${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?sort=breed:${sortType}`;
+    }
+    const response = await fetch(`${urlToFetch}`, {
         method: 'GET',
         credentials: 'include',
     });
@@ -8,8 +15,8 @@ export default async function getDogs(sortType: string) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-    console.log('data', data)
+    const searchResponse = await response.json();
+    console.log('data', searchResponse)
 
     const dogsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
         method: 'POST',
@@ -17,7 +24,7 @@ export default async function getDogs(sortType: string) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data.resultIds.slice(0, 99))
+        body: JSON.stringify(searchResponse.resultIds.slice(0, 9))
     });
 
     if (!dogsResponse.ok) {
@@ -27,5 +34,5 @@ export default async function getDogs(sortType: string) {
     const dogsData = await dogsResponse.json()
     console.log('dogsData', dogsData);
 
-    return dogsData;
+    return {dogsData, searchResponse};
 }

@@ -1,5 +1,5 @@
 export default async function getBreedData(selectedBreed: string) {
-    const searchResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?breeds=${selectedBreed}&size=99`, {
+    const searchResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?breeds=${selectedBreed}&size=9`, {
         method: 'GET',
         credentials: 'include',
     });
@@ -26,5 +26,5 @@ export default async function getBreedData(selectedBreed: string) {
 
     const dogsData = await dogsResponse.json()
     console.log('dogsData', dogsData);
-    return dogsData;
+    return {dogsData, searchData};
 }
