@@ -1,54 +1,70 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
+export default function FilterBreeds({
+  setSelectedBreed,
+  selectedBreed,
+}: {
+  setSelectedBreed: (breed: string) => void;
+  selectedBreed: string;
+}) {
+  const [breeds, setBreeds] = useState<string[]>([]);
 
-export default function FilterBreeds({ setSelectedBreed, selectedBreed }: { setSelectedBreed: (breed: string) => void, selectedBreed: string }) {
-    const [breeds, setBreeds] = useState<string[]>([]);
+  useEffect(() => {
+    async function getAvailableDogs() {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/dogs/breeds`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-    useEffect(() => {
-        async function getAvailableDogs() {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/breeds`, {
-                    method: 'GET',
-                    credentials: 'include',
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setBreeds(data);
-            } catch (error) {
-                console.error('Error fetching dogs:', error);
-            }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        getAvailableDogs();
-    }, []);
-
-    const handleBreedChange = (breed: string) => {
-        setSelectedBreed(breed);
+        const data = await response.json();
+        setBreeds(data);
+      } catch (error) {
+        console.error("Error fetching dogs:", error);
+      }
     }
 
-    return (
-        <Select onValueChange={(value) => handleBreedChange(value)} defaultValue={'all'} value={selectedBreed}>
-            <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select Breed" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectItem key={breeds.length + 1} value={'all'}>All Breeds</SelectItem>
-                {breeds.map((breed, idx) => (
-                    <SelectItem key={idx + 1} value={breed}>{breed}</SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
+    getAvailableDogs();
+  }, []);
 
-    )
+  const handleBreedChange = (breed: string) => {
+    setSelectedBreed(breed);
+  };
+
+  return (
+    <Select
+      onValueChange={(value) => handleBreedChange(value)}
+      defaultValue={"all"}
+      value={selectedBreed}
+    >
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select Breed" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem key={breeds.length + 1} value={"all"}>
+          All Breeds
+        </SelectItem>
+        {breeds.map((breed, idx) => (
+          <SelectItem key={idx + 1} value={breed}>
+            {breed}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
 }

@@ -1,29 +1,33 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { getValueExpiration } from '../utils/valueExpiration';
+import { useEffect, useState } from "react";
 
-export default function withAuth<P extends object>(Component: React.ComponentType<P>) {
-    return function ProtectedComponent(props: P) {
-        const WrappedComponent = () => {
-            const router = useRouter();
-            const [isAuth, setIsAuth] = useState(false);
+import { useRouter } from "next/navigation";
 
-            useEffect(() => {
-                const auth = getValueExpiration('auth')
+import { getValueExpiration } from "../utils/valueExpiration";
 
-                if (!auth) {
-                    router.push('/login')
-                } else {
-                    setIsAuth(true)
-                }
-            }, [router])
+export default function withAuth<P extends object>(
+  Component: React.ComponentType<P>
+) {
+  return function ProtectedComponent(props: P) {
+    const WrappedComponent = () => {
+      const router = useRouter();
+      const [isAuth, setIsAuth] = useState(false);
 
-            if (!isAuth) return null;
+      useEffect(() => {
+        const auth = getValueExpiration("auth");
 
-            return <Component {...props} />
+        if (!auth) {
+          router.push("/login");
+        } else {
+          setIsAuth(true);
         }
-        return <WrappedComponent />
-    }
+      }, [router]);
+
+      if (!isAuth) return null;
+
+      return <Component {...props} />;
+    };
+    return <WrappedComponent />;
+  };
 }

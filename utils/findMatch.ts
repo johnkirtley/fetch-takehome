@@ -1,34 +1,36 @@
 export default async function findMatch(favorites: string[]) {
-    const matchResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/match`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(favorites)
-    });
-
-    if (!matchResponse.ok) {
-        throw new Error(`HTTP error! status: ${matchResponse.status}`);
+  const matchResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/dogs/match`,
+    {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(favorites),
     }
+  );
 
-    const matchData = await matchResponse.json()
-    
+  if (!matchResponse.ok) {
+    throw new Error(`HTTP error! status: ${matchResponse.status}`);
+  }
 
-    const matchInfo = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify([matchData.match])
-    });
+  const matchData = await matchResponse.json();
 
-    if (!matchInfo.ok) {
-        throw new Error(`HTTP error! status: ${matchInfo.status}`);
-    }
+  const matchInfo = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify([matchData.match]),
+  });
 
-    const matchInfoData = await matchInfo.json();
+  if (!matchInfo.ok) {
+    throw new Error(`HTTP error! status: ${matchInfo.status}`);
+  }
 
-    return matchInfoData;
+  const matchInfoData = await matchInfo.json();
+
+  return matchInfoData;
 }
