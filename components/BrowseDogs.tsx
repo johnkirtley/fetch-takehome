@@ -6,6 +6,8 @@ import { useGlobalState } from '../context/GlobalStateContext';
 import ModifySort from './ModifySort';
 import DogCard from './DogCard';
 import FilterBreeds from './FilterBreeds';
+import getDogs from '../utils/getDogs';
+import getBreedData from '../utils/getBreedData';
 interface Dog {
     id: string
     img: string
@@ -19,82 +21,29 @@ function BrowseDogs() {
     const { availableDogs, setAvailableDogs } = useGlobalState();
     const [filteredBreeds, setFilteredBreeds] = useState<Dog[]>(availableDogs);
     const [selectedBreed, setSelectedBreed] = useState<string>('');
+    const [sortType, setSortType] = useState<string>('asc');
 
     useEffect(() => {
         async function getAvailableDogs() {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?size=100&sort=breed:asc`, {
-                    method: 'GET',
-                    credentials: 'include',
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log('data', data)
-
-                const dogsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data.resultIds.slice(0, 99))
-                });
-
-                if (!dogsResponse.ok) {
-                    throw new Error(`HTTP error! status: ${dogsResponse.status}`);
-                }
-
-                const dogsData = await dogsResponse.json()
-                console.log('dogsData', dogsData);
-
-                setAvailableDogs(dogsData);
-                setFilteredBreeds(dogsData); // Set filteredBreeds to the fetched data
+                const allDogs = await getDogs(sortType);
+                setAvailableDogs(allDogs);
+                setFilteredBreeds(allDogs);
             } catch (error) {
                 console.error('Error fetching dogs:', error);
             }
         }
 
         getAvailableDogs();
-    }, [setAvailableDogs]);
+    }, [setAvailableDogs, sortType]);
 
     useEffect(() => {
         async function getBreedInfo() {
             try {
-                const searchResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?breeds=${selectedBreed}&size=99`, {
-                    method: 'GET',
-                    credentials: 'include',
-                });
-
-                if (!searchResponse.ok) {
-                    throw new Error(`HTTP error! status: ${searchResponse.status}`);
-                }
-
-                const searchData = await searchResponse.json();
-                console.log('searchData', searchData);
-
-                const dogsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(searchData.resultIds)
-                });
-
-                if (!dogsResponse.ok) {
-                    throw new Error(`HTTP error! status: ${dogsResponse.status}`);
-                }
-
-                const dogsData = await dogsResponse.json()
-                console.log('dogsData', dogsData);
-                setFilteredBreeds(dogsData);
-
+                const breedData = await getBreedData(selectedBreed);
+                setFilteredBreeds(breedData);
             } catch (error) {
-                console.error('Error fetching dogs:', error);
+                console.error('Error fetching breed data:', error);
             }
         }
 
@@ -115,7 +64,7 @@ function BrowseDogs() {
                     <p>Filter</p>
                     <FilterBreeds setSelectedBreed={setSelectedBreed} />
                 </div>
-                <ModifySort filteredBreeds={filteredBreeds} setFilteredBreeds={setFilteredBreeds} />
+                <ModifySort setSortType={setSortType} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {filteredBreeds.length > 0 ? filteredBreeds.map((dog, index) => (
