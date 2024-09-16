@@ -1,5 +1,5 @@
 export default async function getDogs(sortType: string) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?size=100&sort=breed:${sortType}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?size=20&sort=breed:${sortType}`, {
         method: 'GET',
         credentials: 'include',
     });
