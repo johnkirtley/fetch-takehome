@@ -4,11 +4,17 @@ export default function NavMenu() {
   return (
     <div className="flex flex-row justify-between w-11/12 mx-5 my-10">
       <div>
-        <Link href="/">Home</Link>
+        <Link className="text-xl font-bold" href="/">
+          Home
+        </Link>
       </div>
       <div className="flex flex-row gap-4">
-        <Link href="/find-my-match">Find My Match</Link>
-        <Link href="/favorites">Favorites</Link>
+        <Link className="text-xl font-bold" href="/find-my-match">
+          Find My Match
+        </Link>
+        <Link className="text-xl font-bold" href="/favorites">
+          Favorites
+        </Link>
       </div>
     </div>
   );
