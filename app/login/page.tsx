@@ -51,6 +51,7 @@ export default function Login() {
     const { status } = request;
 
     if (status === 200) {
+      // setting a local storage flag to expire the same time as access token
       setValueExpiration("auth", "true", 1000 * 60 * 60);
       router.push("/");
     }
