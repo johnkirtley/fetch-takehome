@@ -12,6 +12,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 
+import StatusBadge from "./StatusBadge";
 import { Dog } from "../types/interfaces";
 import manageFavorites from "../utils/manageFavorites";
 
@@ -39,6 +40,7 @@ export default function DogCard({ dog, linkToBreed }: DogCardProps) {
       className="bg-white rounded-lg shadow-md overflow-hidden"
     >
       <CardContent className="relative h-48">
+        <StatusBadge />
         <Image
           src={dog.img}
           alt={dog.name}
