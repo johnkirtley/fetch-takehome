@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { getAllBreeds } from "@/utils/getAllBreeds";
 
 interface FilterBreedsProps {
