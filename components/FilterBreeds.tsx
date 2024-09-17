@@ -8,6 +8,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { getAllBreeds } from "@/utils/getAllBreeds";
+
 interface FilterBreedsProps {
   setSelectedBreed: (breed: string) => void;
   selectedBreed: string;
@@ -19,28 +21,16 @@ export default function FilterBreeds({
 }: FilterBreedsProps) {
   const [breeds, setBreeds] = useState<string[]>([]);
 
-  useEffect(() => {
-    async function getAvailableDogs() {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/dogs/breeds`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setBreeds(data);
-      } catch (error) {
-        console.error("Error fetching dogs:", error);
-      }
+  const getAvailableDogs = async () => {
+    try {
+      const breedList = await getAllBreeds();
+      setBreeds(breedList);
+    } catch (error) {
+      console.error("Error fetching dogs:", error);
     }
+  };
 
+  useEffect(() => {
     getAvailableDogs();
   }, []);
 
