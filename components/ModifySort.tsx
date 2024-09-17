@@ -21,10 +21,18 @@ function ModifySort({ setSortType, triggerRefetch }: ModifySortProps) {
         <p>Sort By Breed:</p>
       </div>
       <div className="flex gap-2">
-        <Button variant="secondary" onClick={() => handleSortChange("asc")}>
+        <Button
+          variant="outline"
+          className="bg-white"
+          onClick={() => handleSortChange("asc")}
+        >
           Asc
         </Button>
-        <Button variant="secondary" onClick={() => handleSortChange("desc")}>
+        <Button
+          variant="outline"
+          className="bg-white"
+          onClick={() => handleSortChange("desc")}
+        >
           Desc
         </Button>
       </div>

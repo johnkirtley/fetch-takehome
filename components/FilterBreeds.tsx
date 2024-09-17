@@ -43,7 +43,7 @@ export default function FilterBreeds({
       defaultValue={"all"}
       value={selectedBreed}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[180px] bg-white">
         <SelectValue placeholder="Select Breed" />
       </SelectTrigger>
       <SelectContent>
