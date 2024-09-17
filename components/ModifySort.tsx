@@ -10,6 +10,8 @@ interface ModifySortProps {
 function ModifySort({ setSortType, triggerRefetch }: ModifySortProps) {
   const handleSortChange = (newSortType: string) => {
     setSortType(newSortType);
+
+    // ensures breeds can be refetched regardless of current sort
     triggerRefetch();
   };
 
