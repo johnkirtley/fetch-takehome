@@ -27,7 +27,7 @@
       "error",
       {
         "singleQuote": false,
-        "trailingComma": "es5",
+        "trailingComma": "es5"
       }
     ],
     "no-unexpected-multiline": "off",
