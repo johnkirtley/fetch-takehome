@@ -1,4 +1,5 @@
 import { useState } from "react";
+import React from "react";
 
 import { HeartIcon, HeartOffIcon, Send } from "lucide-react";
 import Image from "next/image";
@@ -15,8 +16,6 @@ import {
 import StatusBadge from "./StatusBadge";
 import { Dog } from "../types/interfaces";
 import manageFavorites from "../utils/manageFavorites";
-
-import React from "react";
 
 const MemoizedStatusBadge = React.memo(StatusBadge);
 interface DogCardProps {
