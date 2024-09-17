@@ -7,14 +7,16 @@ import { Dog } from "../../../types/interfaces";
 export default function Page({ params }: { params: { slug: string } }) {
   const [breedInfo, setBreedInfo] = useState<Dog[]>([]);
 
+  // Format breed name to replace hyphens with spaces and capitalize the first letter of each word
+  const formattedBreedName = params.slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+
   useEffect(() => {
     async function getBreedInfo() {
-      const formattedSlug = params.slug
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, (l) => l.toUpperCase());
       try {
         const searchResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?breeds=${formattedSlug}&size=99`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/dogs/search?breeds=${formattedBreedName}&size=99`,
           {
             method: "GET",
             credentials: "include",
@@ -53,12 +55,10 @@ export default function Page({ params }: { params: { slug: string } }) {
     getBreedInfo();
   }, [params.slug]);
 
-  const formattedBreedName = `${params.slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}s`;
-
   return (
     <div className="flex flex-col items-center justify-center p-8">
       <h1 className="text-3xl font-bold mb-6">
-        View All Our Awesome {formattedBreedName}
+        View All Our Awesome {formattedBreedName}s
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {breedInfo.map((dog) => (
