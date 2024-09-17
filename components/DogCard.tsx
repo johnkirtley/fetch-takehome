@@ -16,6 +16,9 @@ import StatusBadge from "./StatusBadge";
 import { Dog } from "../types/interfaces";
 import manageFavorites from "../utils/manageFavorites";
 
+import React from "react";
+
+const MemoizedStatusBadge = React.memo(StatusBadge);
 interface DogCardProps {
   dog: Dog;
   linkToBreed: boolean;
@@ -49,7 +52,7 @@ export default function DogCard({ dog, linkToBreed }: DogCardProps) {
         />
       </CardContent>
       <div className="w-full flex justify-end">
-        <StatusBadge />
+        <MemoizedStatusBadge />
       </div>
       <CardHeader>
         <div>
