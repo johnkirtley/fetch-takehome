@@ -40,7 +40,6 @@ export default function DogCard({ dog, linkToBreed }: DogCardProps) {
       className="bg-white rounded-lg shadow-md overflow-hidden"
     >
       <CardContent className="relative h-48">
-        <StatusBadge />
         <Image
           src={dog.img}
           alt={dog.name}
@@ -49,6 +48,9 @@ export default function DogCard({ dog, linkToBreed }: DogCardProps) {
           loading="lazy"
         />
       </CardContent>
+      <div className="w-full flex justify-end">
+        <StatusBadge />
+      </div>
       <CardHeader>
         <div>
           <h2 className="text-xl font-semibold mb-2">{dog.name}</h2>
