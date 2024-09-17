@@ -23,39 +23,41 @@ function BrowseDogs() {
     next: "",
   });
 
-  useEffect(() => {
-    async function getAvailableDogs() {
-      try {
-        const { dogsData, searchResponse } = await getDogs(sortType);
-        setAvailableDogs(dogsData);
-        setFilteredBreeds(dogsData);
-        setSelectedBreed("all");
-        setPaginationInfo({
-          prev: searchResponse.prev,
-          next: searchResponse.next,
-        });
-      } catch (error) {
-        console.error("Error fetching dogs:", error);
-      }
+  // Fetch all dogs based on sort type
+  const getAvailableDogs = async () => {
+    try {
+      const { dogsData, searchResponse } = await getDogs(sortType);
+      setAvailableDogs(dogsData);
+      setFilteredBreeds(dogsData);
+      setSelectedBreed("all");
+      setPaginationInfo({
+        prev: searchResponse.prev,
+        next: searchResponse.next,
+      });
+    } catch (error) {
+      console.error("Error fetching dogs:", error);
     }
+  };
 
+  // Fetch dogs based on selected breed
+  const getBreedInfo = async () => {
+    try {
+      const { dogsData, searchData } = await getBreedData(selectedBreed);
+      setFilteredBreeds(dogsData);
+      setPaginationInfo({
+        prev: searchData.prev,
+        next: searchData.next,
+      });
+    } catch (error) {
+      console.error("Error fetching breed data:", error);
+    }
+  };
+
+  useEffect(() => {
     getAvailableDogs();
   }, [setAvailableDogs, sortType, refetchTrigger]);
 
   useEffect(() => {
-    async function getBreedInfo() {
-      try {
-        const { dogsData, searchData } = await getBreedData(selectedBreed);
-        setFilteredBreeds(dogsData);
-        setPaginationInfo({
-          prev: searchData.prev,
-          next: searchData.next,
-        });
-      } catch (error) {
-        console.error("Error fetching breed data:", error);
-      }
-    }
-
     if (selectedBreed && selectedBreed !== "all") {
       getBreedInfo();
     }
