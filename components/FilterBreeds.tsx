@@ -8,13 +8,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface FilterBreedsProps {
+  setSelectedBreed: (breed: string) => void;
+  selectedBreed: string;
+}
+
 export default function FilterBreeds({
   setSelectedBreed,
   selectedBreed,
-}: {
-  setSelectedBreed: (breed: string) => void;
-  selectedBreed: string;
-}) {
+}: FilterBreedsProps) {
   const [breeds, setBreeds] = useState<string[]>([]);
 
   useEffect(() => {
